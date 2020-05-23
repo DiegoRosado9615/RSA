@@ -30,12 +30,15 @@ class RSA{
         q=creadorPrimos();
       }
       BigInteger llave = new BigInteger("0");
+      BigInteger producto= p.multiply(q);
+      System.out.println("##########################");
+      System.out.println("Esta es la llave " + producto );
       p=p.add(resta);
       q=q.add(resta);
+
       llave=llave.add(p);
-      llave=llave.add(q);
-      System.out.println("##########################");
-      System.out.println("Esta es la llave " + llave );
+      llave=llave.multiply(q);
+
      return llave;
    }
    /**
@@ -54,7 +57,6 @@ class RSA{
       }
       contador++;
     }
-
     return  primo;
    }
 
