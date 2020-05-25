@@ -35,10 +35,8 @@ class RSA{
       System.out.println("Esta es la llave " + producto );
       p=p.add(resta);
       q=q.add(resta);
-
       llave=llave.add(p);
       llave=llave.multiply(q);
-
      return llave;
    }
    /**
@@ -87,13 +85,76 @@ class RSA{
      return -1;
    }
 
+   /**
+   *Metodo que permite hacer MCD, recibe un entero y un big integer  ,
+   *@param int x
+   *@param BigInteger y
+   *@param BigInteger z
+   */
+   public BigInteger mcd(BigInteger x, BigInteger y){
+     BigInteger cero= new BigInteger("0");
+     if ((x.compareTo(cero)) == 0) return y;
+     if ((y.compareTo(cero)) == 0) return x;
+     else{
+       BigInteger z=  x.mod(y);
+       return mcd(y,z);
+     }
+   }//mcd
+
+   public BigInteger inversoMultiplicativo(BigInteger a, BigInteger m){
+     BigInteger MENOSUNO = new BigInteger("-1");
+     BigInteger UNO = new BigInteger("1");
+     BigInteger CERO= new BigInteger("0");
+
+     BigInteger c1 = new BigInteger("1");
+     BigInteger c2 = MENOSUNO.multiply(m.divide(a));
+     BigInteger t1 = new BigInteger("0");
+     BigInteger t2 = new BigInteger("1");
+     BigInteger r = m.mod(a);
+     BigInteger x = a;
+     BigInteger y = m;
+
+     BigInteger c = new BigInteger("1");
+     System.out.println("Esto es c " + c);
+     BigInteger t1p;
+     BigInteger t2p;
+     while ((r.compareTo(CERO)) !=0 ) {
+       System.out.println("Bucle");
+       System.out.println("Este es x " + x + " Este es y " + y );
+       c  = x.divide(y);
+       System.out.println("hola " + x.divide(y));
+       r  = x.mod(y);
+       c1 = (MENOSUNO.multiply(c)).multiply(c1);
+       c2 = (MENOSUNO.multiply(c)).multiply(c2);
+       c1 = c1.add(t1);
+       c2 = c2.add(t2);
+       t1p = (c1.add(MENOSUNO.multiply(t1)));
+       t2p = (c2.add(MENOSUNO.multiply(t2)));
+
+      t1 = (MENOSUNO.multiply(t1p)).divide(c);
+      t2 = (MENOSUNO.multiply(t2p)).divide(c);
+
+      x=y;
+      y=r;
+     }
+     if(x.compareTo(UNO) ==  0) return t2;
+     else{
+       System.out.println("No tuvo inverso lo siento F");
+       return MENOSUNO;
+     }
+
+   }//inversoMultiplicativo
 
   public static void main(String[] args) {
     RSA prueba= new RSA();
-    BigInteger numeros= prueba.creadorLlave();
-    int x= prueba.cooPrimo(numeros);
 
-
+    //BigInteger numeros= prueba.creadorLlave();
+    //int x= prueba.cooPrimo(numeros);
+    BigInteger numero1= new BigInteger("115");
+    BigInteger numero2= new BigInteger("224");
+    BigInteger numero3= numero1.divide(numero2);
+    System.out.println(prueba.inversoMultiplicativo(numero1,numero2));
+    //System.out.println(prueba.mcd(numero1,numero2));
 
   }
 
