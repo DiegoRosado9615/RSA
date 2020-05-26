@@ -4,6 +4,10 @@ import java.util.Random;
 
 class RSA{
    Random r;
+   public static final BigInteger UNO = new BigInteger("1");
+   public static final BigInteger CERO = new BigInteger("0");
+   public static final BigInteger MENOSUNO = new BigInteger("-1");
+
    /**
    Metodo que crea son los primos de al menos tamaño 50
    @param
@@ -25,7 +29,6 @@ class RSA{
    public BigInteger creadorLlave(){
      BigInteger p = creadorPrimos();
      BigInteger q = creadorPrimos();
-     BigInteger resta= new BigInteger("-1");
       while((p.compareTo(q))==0){ // verifico que p no sea igual a q
         q=creadorPrimos();
       }
@@ -33,8 +36,8 @@ class RSA{
       BigInteger producto= p.multiply(q);
       System.out.println("##########################");
       System.out.println("Esta es la llave " + producto );
-      p=p.add(resta);
-      q=q.add(resta);
+      p=p.add(MENOSUNO);
+      q=q.add(MENOSUNO);
       llave=llave.add(p);
       llave=llave.multiply(q);
      return llave;
@@ -102,26 +105,31 @@ class RSA{
    }//mcd
 
    public BigInteger inversoMultiplicativo(BigInteger a, BigInteger m){
-     BigInteger MENOSUNO = new BigInteger("-1");
-     BigInteger UNO = new BigInteger("1");
-     BigInteger CERO= new BigInteger("0");
-
-     BigInteger c1 = new BigInteger("1");
+     BigInteger c1 = UNO;
      BigInteger c2 = MENOSUNO.multiply(m.divide(a));
-     BigInteger t1 = new BigInteger("0");
-     BigInteger t2 = new BigInteger("1");
+     BigInteger t1 = CERO;
+     BigInteger t2 = UNO;
      BigInteger r = m.mod(a);
      BigInteger x = a;
      BigInteger y = m;
-
-     BigInteger c = new BigInteger("1");
-     System.out.println("Esto es c " + c);
+     BigInteger c = UNO;
      BigInteger t1p;
      BigInteger t2p;
      while ((r.compareTo(CERO)) !=0 ) {
+       System.out.println("c1 "+c1);
+       System.out.println("c2 "+c2);
+       System.out.println("t1 "+t1);
+       System.out.println("t2 "+t2);
+       System.out.println("r "+r);
+       System.out.println("c "+c);
+
        System.out.println("Bucle");
        System.out.println("Este es x " + x + " Este es y " + y );
-       c  = x.divide(y);
+       if(x.divide(y).compareTo(CERO) == 0){
+        c=UNO;
+       }else{
+        c  = x.divide(y);
+       }
        System.out.println("hola " + x.divide(y));
        r  = x.mod(y);
        c1 = (MENOSUNO.multiply(c)).multiply(c1);
