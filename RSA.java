@@ -134,8 +134,117 @@ class RSA{
        System.out.println("No tuvo inverso lo siento F");
        return MENOSUNO;
      }
-
    }//inversoMultiplicativo
+
+   /**
+   Metodo auxiliarque recibe un char y lo transforma en número
+   *@param char x
+   *@return String y
+   */
+   public String letraNum(char x){
+     switch(x){
+       case 'a':
+       return "0";
+
+       case 'b' :
+       return "1";
+
+       case 'c':
+       return "2";
+
+       case 'd' :
+       return "3";
+
+       case 'e':
+       return "4";
+
+       case 'f' :
+       return "5";
+
+       case 'g':
+       return "6";
+
+       case 'h' :
+       return "7";
+
+       case 'i':
+       return "8";
+
+       case 'j' :
+       return "9";
+
+       case 'k':
+       return "10";
+
+       case 'l' :
+       return "11";
+
+       case 'm':
+       return "12";
+
+       case 'n' :
+       return "13";
+
+       case 'ñ':
+       return "14";
+
+       case 'o' :
+       return "15";
+
+       case 'p':
+       return "16";
+
+       case 'q' :
+       return "17";
+
+       case 'r':
+       return "18";
+       case 's' :
+
+       return "19";
+
+       case 't':
+       return "20";
+
+       case 'u' :
+       return "21";
+
+       case 'v':
+       return "22";
+
+       case 'w' :
+       return "23";
+
+       case 'x':
+       return "24";
+
+       case 'y' :
+       return "25";
+
+       case 'z':
+       return "26";
+
+       case ' ' :
+       return "27";
+
+       case ',' :
+       return "28";
+
+     }
+     return "0";
+   }//letraNum
+
+   /**
+   *Metodo que me permite transformar un string a una lista de String pero en su forma
+   *numerica para poder despues transformarlos en bigInteger en la codificacion
+   *@param String x
+   *@return List <String> y
+   */
+
+   public ArrayList <String> combertidor(String x){
+     String numero="";
+     return null;
+   }
 
 
 
@@ -144,11 +253,10 @@ class RSA{
 
     //BigInteger numeros= prueba.creadorLlave();
     //int x= prueba.cooPrimo(numeros);
-    BigInteger numero1= new BigInteger("11");
-    BigInteger numero2= new BigInteger("224");
-    BigInteger numero3= numero1.divide(numero2);
-    System.out.println(prueba.inversoMultiplicativo(numero1,numero2));
-
+    //BigInteger numero1= new BigInteger("11");
+    //BigInteger numero2= new BigInteger("224");
+    //BigInteger numero3= numero1.divide(numero2);
+    //System.out.println(prueba.inversoMultiplicativo(numero1,numero2));
     //System.out.println(prueba.mcd(numero1,numero2));
 
   }
