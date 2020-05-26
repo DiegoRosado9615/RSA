@@ -24,7 +24,7 @@ class RSA{
    *Metodo que permite la creación de el modulo donde va a vivir nuestro RSA
    *@param
    *@return BigInteger [0] = n
-   *@return BigInteger [1] = k
+   *@return BigInteger [1] = z
    */
 
    public BigInteger[] creadorLlave(){
@@ -295,7 +295,7 @@ class RSA{
     BigInteger auxiliar=UNO;
     for (int i=0;i<codificacionFinal.length ;i++ ) {
         numero=new BigInteger(mensaje[i]);
-        //auxiliar=k.intValue();
+        
         codificacionFinal[i]=numero.pow(k.intValue()).mod(n);
     }
     return codificacionFinal;
@@ -305,16 +305,14 @@ class RSA{
   Metodo que permite Decifrar los mensajes de RSA
   */
 
-  public BigInteger[] desifrarCodificacion(BigInteger[] x, BigInteger j , BigInteger n){
+  public BigInteger[] desifrarCodificacion(BigInteger[] x, BigInteger j, BigInteger n){
     BigInteger [] codificacionFinal= new BigInteger[x.length];
     BigInteger numero= UNO;
-    BigInteger auxiliar=UNO;
 
     for (int i=0;i<codificacionFinal.length ;i++ ) {
-        numero=new BigInteger(x[i]+"");
         //auxiliar=k.intValue();
-        codificacionFinal[i]=numero.pow(j.intValue()).mod(n);
-        System.out.println(numero.pow(j.intValue()));
+        codificacionFinal[i]=(numero.pow(j.intValue())).mod(n);
+
     }
     return codificacionFinal;
 
@@ -325,23 +323,46 @@ class RSA{
 
   public static void main(String[] args) {
     RSA prueba= new RSA();
-
     //BigInteger numeros= prueba.creadorLlave();
-    //int x= prueba.cooPrimo(numeros);
-    BigInteger numero1= new BigInteger("11");
-    BigInteger numero2= new BigInteger("224");
-    BigInteger numero3= new BigInteger("163");
+    //
+    String mensaje="hola";
+    BigInteger [] cuartada=prueba.creadorLlave();
+    System.out.println("Buscando un coprimo");
+    int x= prueba.cooPrimo(cuartada[1]);
+    System.out.println("El cooPrimo encontrado es " + x);
+    System.out.println("Por lo que el la clave publica es ");
+    System.out.println("( " + cuartada[1] + ", " + x + " )" );
+    BigInteger k=new BigInteger( x+"");
+    BigInteger j = prueba.inversoMultiplicativo(k,cuartada[1]);
+    System.out.println("Esta es la clave privada " +  j);
+    if((j.compareTo(UNO)==0) || (j.compareTo(MENOSUNO)==0) ){
+      System.out.println("Lo sentimos no hay inverso multiplicativo por favor vuelva a ejecutar");
+      System.out.println("Sentimos las molestias");
+
+    }else{
+      System.out.println("El mensaje sin cifrar es " + mensaje );
+      String [] numeros= prueba.combertidor(mensaje);
+      BigInteger cifradoMensaje[]= prueba.mensajeCifrado(numeros,k,cuartada[0]);
+      System.out.println("Mensaje Cifrado es ");
+      imprimeArrNum(cifradoMensaje);
+      System.out.println("Desifrando el mensaje");
+      BigInteger [] desifrado= prueba.desifrarCodificacion(cifradoMensaje,j,cuartada[0]);
+      imprimeArrNum(desifrado);
+
+    }
+
+
     //BigInteger numero3= numero1.divide(numero2);
     //System.out.println(prueba.inversoMultiplicativo(numero1,numero2));
     //System.out.println(prueba.mcd(numero1,numero2));
-    String cadena = "Hola";
-    String[] codificacion = prueba.combertidor(cadena);
-    BigInteger mensajes[]= prueba.mensajeCifrado(codificacion,numero1,numero2);
+    //String cadena = "paco";
+    //String[] codificacion = prueba.combertidor(cadena);
+    //BigInteger mensajes[]= prueba.mensajeCifrado(cuartada,numero1,numero2);
 
-    imprimeArr(codificacion);
-    imprimeArrNum(mensajes);
-    BigInteger mensajes2[] = prueba.desifrarCodificacion(mensajes,numero3,numero2);
-    imprimeArrNum(mensajes2);
+    //imprimeArr(codificacion);
+    //imprimeArrNum(mensajes);
+    //BigInteger mensajes2[] = prueba.desifrarCodificacion(cuartada,numero1,numero2);
+    //imprimeArrNum(mensajes2);
     //System.out.println(cadena);
   }//main
 
