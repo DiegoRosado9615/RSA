@@ -116,19 +116,7 @@ class RSA{
      BigInteger t1p;
      BigInteger t2p;
      while ((r.compareTo(CERO)) !=0 ) {
-       System.out.println("c1 "+c1);
-       System.out.println("c2 "+c2);
-       System.out.println("t1 "+t1);
-       System.out.println("t2 "+t2);
-       System.out.println("r "+r);
-       //System.out.println("c "+c);
-
-       System.out.println("Bucle");
-       System.out.println("Este es x " + x + " Este es y " + y );
-
-        c  = x.divide(y);
-        System.out.println(c);
-       System.out.println("hola " + x.divide(y));
+       c  = x.divide(y);
        r  = x.mod(y);
        c1 = (MENOSUNO.multiply(c)).multiply(c1);
        c2 = (MENOSUNO.multiply(c)).multiply(c2);
@@ -136,14 +124,12 @@ class RSA{
        c2 = c2.add(t2);
        t1p = (c1.add(MENOSUNO.multiply(t1)));
        t2p = (c2.add(MENOSUNO.multiply(t2)));
-
-      t1 = (MENOSUNO.multiply(t1p)).divide(c);
-      t2 = (MENOSUNO.multiply(t2p)).divide(c);
-
-      x=y;
-      y=r;
+       t1 = (MENOSUNO.multiply(t1p)).divide(c);
+       t2 = (MENOSUNO.multiply(t2p)).divide(c);
+       x=y;
+       y=r;
      }
-     if(x.compareTo(UNO) ==  0) return t2;
+     if(x.compareTo(UNO) ==  0) return t2.mod(m);
      else{
        System.out.println("No tuvo inverso lo siento F");
        return MENOSUNO;
@@ -158,11 +144,11 @@ class RSA{
 
     //BigInteger numeros= prueba.creadorLlave();
     //int x= prueba.cooPrimo(numeros);
-    BigInteger numero1= new BigInteger("115");
+    BigInteger numero1= new BigInteger("11");
     BigInteger numero2= new BigInteger("224");
     BigInteger numero3= numero1.divide(numero2);
     System.out.println(prueba.inversoMultiplicativo(numero1,numero2));
-    //obtenerInverso(115,224);
+
     //System.out.println(prueba.mcd(numero1,numero2));
 
   }
