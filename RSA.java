@@ -111,8 +111,8 @@ class RSA{
      BigInteger t2 = UNO;
      BigInteger r = m.mod(a);
      BigInteger x = a;
-     BigInteger y = m;
-     BigInteger c = UNO;
+     BigInteger y = r;
+     BigInteger c ;
      BigInteger t1p;
      BigInteger t2p;
      while ((r.compareTo(CERO)) !=0 ) {
@@ -121,15 +121,13 @@ class RSA{
        System.out.println("t1 "+t1);
        System.out.println("t2 "+t2);
        System.out.println("r "+r);
-       System.out.println("c "+c);
+       //System.out.println("c "+c);
 
        System.out.println("Bucle");
        System.out.println("Este es x " + x + " Este es y " + y );
-       if(x.divide(y).compareTo(CERO) == 0){
-        c=UNO;
-       }else{
+
         c  = x.divide(y);
-       }
+        System.out.println(c);
        System.out.println("hola " + x.divide(y));
        r  = x.mod(y);
        c1 = (MENOSUNO.multiply(c)).multiply(c1);
@@ -153,6 +151,8 @@ class RSA{
 
    }//inversoMultiplicativo
 
+
+
   public static void main(String[] args) {
     RSA prueba= new RSA();
 
@@ -162,6 +162,7 @@ class RSA{
     BigInteger numero2= new BigInteger("224");
     BigInteger numero3= numero1.divide(numero2);
     System.out.println(prueba.inversoMultiplicativo(numero1,numero2));
+    //obtenerInverso(115,224);
     //System.out.println(prueba.mcd(numero1,numero2));
 
   }
