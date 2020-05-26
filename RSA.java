@@ -23,12 +23,14 @@ class RSA{
    /**
    *Metodo que permite la creación de el modulo donde va a vivir nuestro RSA
    *@param
-   *@return BigInteger
+   *@return BigInteger [0] = n
+   *@return BigInteger [1] = k
    */
 
-   public BigInteger creadorLlave(){
+   public BigInteger[] creadorLlave(){
      BigInteger p = creadorPrimos();
      BigInteger q = creadorPrimos();
+     BigInteger [] llaves= new BigInteger[2];
       while((p.compareTo(q))==0){ // verifico que p no sea igual a q
         q=creadorPrimos();
       }
@@ -36,11 +38,13 @@ class RSA{
       BigInteger producto= p.multiply(q);
       System.out.println("##########################");
       System.out.println("Esta es la llave " + producto );
+      llaves[0]=producto;
       p=p.add(MENOSUNO);
       q=q.add(MENOSUNO);
       llave=llave.add(p);
       llave=llave.multiply(q);
-     return llave;
+      llaves[1]=llave;
+     return llaves;
    }
    /**
    *Metodo que nos permitira saber si un número es primo o no
@@ -199,8 +203,8 @@ class RSA{
 
        case 'r':
        return "18";
-       case 's' :
 
+       case 's' :
        return "19";
 
        case 't':
@@ -230,21 +234,92 @@ class RSA{
        case ',' :
        return "28";
 
+       case '1' :
+       return "29";
+
+       case '2' :
+       return "30";
+
+       case '3' :
+       return "31";
+
+       case '4' :
+       return "32";
+
+       case '5' :
+       return "32";
+
+       case '6' :
+       return "33";
+
+       case '7' :
+       return "34";
+
+       case '8' :
+       return "35";
+
+       case '9' :
+       return "36";
+
+       default:
+       return "-1";
      }
-     return "0";
    }//letraNum
 
    /**
    *Metodo que me permite transformar un string a una lista de String pero en su forma
    *numerica para poder despues transformarlos en bigInteger en la codificacion
    *@param String x
-   *@return List <String> y
+   *@return String[]
    */
 
-   public ArrayList <String> combertidor(String x){
+   public  String[] combertidor(String x){
+     x=x.toLowerCase();
      String numero="";
-     return null;
+     char apoyo=' ';
+     String [] codificado = new String [x.length()];
+     for (int i=0;i<x.length() ;i++ ) {
+        apoyo=x.charAt(i);
+        codificado[i]=letraNum(apoyo);
+     }
+     return codificado;
    }
+
+
+  /**
+    Metodo que nos permite cifrar un mensaje
+  */
+  public BigInteger[] mensajeCifrado(String[] mensaje, BigInteger k, BigInteger n){
+    BigInteger [] codificacionFinal= new BigInteger[mensaje.length];
+    BigInteger numero= UNO;
+    BigInteger auxiliar=UNO;
+    for (int i=0;i<codificacionFinal.length ;i++ ) {
+        numero=new BigInteger(mensaje[i]);
+        //auxiliar=k.intValue();
+        codificacionFinal[i]=numero.pow(k.intValue()).mod(n);
+    }
+    return codificacionFinal;
+  }
+
+  /**
+  Metodo que permite Decifrar los mensajes de RSA
+  */
+
+  public BigInteger[] desifrarCodificacion(BigInteger[] x, BigInteger j , BigInteger n){
+    BigInteger [] codificacionFinal= new BigInteger[x.length];
+    BigInteger numero= UNO;
+    BigInteger auxiliar=UNO;
+
+    for (int i=0;i<codificacionFinal.length ;i++ ) {
+        numero=new BigInteger(x[i]+"");
+        //auxiliar=k.intValue();
+        codificacionFinal[i]=numero.pow(j.intValue()).mod(n);
+        System.out.println(numero.pow(j.intValue()));
+    }
+    return codificacionFinal;
+
+  }
+
 
 
 
@@ -253,12 +328,43 @@ class RSA{
 
     //BigInteger numeros= prueba.creadorLlave();
     //int x= prueba.cooPrimo(numeros);
-    //BigInteger numero1= new BigInteger("11");
-    //BigInteger numero2= new BigInteger("224");
+    BigInteger numero1= new BigInteger("11");
+    BigInteger numero2= new BigInteger("224");
+    BigInteger numero3= new BigInteger("163");
     //BigInteger numero3= numero1.divide(numero2);
     //System.out.println(prueba.inversoMultiplicativo(numero1,numero2));
     //System.out.println(prueba.mcd(numero1,numero2));
+    String cadena = "Hola";
+    String[] codificacion = prueba.combertidor(cadena);
+    BigInteger mensajes[]= prueba.mensajeCifrado(codificacion,numero1,numero2);
 
+    imprimeArr(codificacion);
+    imprimeArrNum(mensajes);
+    BigInteger mensajes2[] = prueba.desifrarCodificacion(mensajes,numero3,numero2);
+    imprimeArrNum(mensajes2);
+    //System.out.println(cadena);
+  }//main
+
+  /**
+  Metodo que me permite revisar que la codifcacion numerica este bien
+  *@param String []  x
+*/
+  public static void imprimeArr(String[] x){
+    for (int i=0;i<x.length ; i++ ){
+      System.out.print("| "+ x[i]+" |" );
+    }
+    System.out.println();
   }
+
+
+  public static void imprimeArrNum(BigInteger[] x){
+    for (int i=0;i<x.length ; i++ ){
+      System.out.print("| "+ x[i]+" |" );
+    }
+    System.out.println();
+  }
+
+
+
 
 }
